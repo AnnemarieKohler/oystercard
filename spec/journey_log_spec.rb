@@ -12,6 +12,12 @@ describe JourneyLog do
       log.entry_station(station)
       expect(log.journey).to eq journey_init
     end
+
+    it 'log journey if there is an instance of journey' do
+      allow(log).to receive(:journey).and_return(journey_init)
+      log.entry_station(station)
+      expect(log.journey).to eq journey_init
+    end
   end
 
 end

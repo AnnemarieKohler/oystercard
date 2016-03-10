@@ -1,13 +1,15 @@
 class JourneyLog
 
-  attr_reader :journey
+  attr_reader :journey, :journeys
 
   def initialize(journey_class)
     @journey_class = journey_class
+    @journeys = []
   end
 
   def entry_station(station)
-    # log_journey unless @journey.nil?
+    # log_journey if @journey
+    log_journey unless @journey.nil?
     @journey = @journey_class.new(station)
   end
 
