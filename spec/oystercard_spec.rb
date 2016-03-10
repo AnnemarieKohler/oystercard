@@ -1,7 +1,9 @@
 require 'oystercard'
 
 describe Oystercard do
-  subject(:card) {described_class.new}
+  let(:journey) { double(:journey, complete_journey: nil, fare: 1) }
+  let(:journey_class) { double(:journey_class, new: journey) }
+  subject(:card) {described_class.new(journey_class)}
   let(:euston) { double :station }
   let(:lime_house) { double :station }
 
