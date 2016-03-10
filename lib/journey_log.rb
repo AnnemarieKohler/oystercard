@@ -18,6 +18,12 @@ class JourneyLog
     log_journey
   end
 
+
+  def fare
+    @journey.fare
+  end
+
+
   private
 
   def log_journey
