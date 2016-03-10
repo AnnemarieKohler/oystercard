@@ -2,7 +2,7 @@ require 'oystercard'
 
 describe Oystercard do
   let(:journey_class) { double(:journey_class) }
-  let(:journey_log) { double( :journey_log, entry_station: nil) }
+  let(:journey_log) { double( :journey_log, entry_station: nil, exit_station: nil, fare: 1) }
   let(:journey_log_class) { double(:journey_log_class, new: journey_log) }
 
   subject(:card) {described_class.new(journey_log_class, journey_class)}
@@ -26,7 +26,7 @@ describe Oystercard do
     end
 
     describe '#touch_in' do
-      it 'should pass station to journey log' do
+      it 'should pass entry station to journey log' do
         card.touch_in(euston)
         expect(journey_log).to have_received(:entry_station).with(euston)
       end
@@ -38,6 +38,11 @@ describe Oystercard do
       end
 
       describe '#touch_out' do
+        it 'should pass exit_station to journey log' do
+          card.touch_out(lime_house)
+          expect(journey_log).to have_received(:exit_station).with(lime_house)
+        end
+
         it 'deducts minimum fare' do
           min_fare = described_class::MIN_FARE
           expect{ card.touch_out lime_house }.to change{ card.balance }.by(-min_fare)

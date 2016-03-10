@@ -9,7 +9,7 @@ class Oystercard
 
   def initialize(journey_log_class,journey_class)
     @journey_log = journey_log_class.new(journey_class)
-    # @journey_class = journey_class
+    @journey = journey_class
     @balance = 0
     @journeys = []
   end
@@ -27,6 +27,9 @@ class Oystercard
   end
 
   def touch_out(station)
+    @journey_log.exit_station(station)
+    deduct(@journey_log.fare)
+
     # @journey = @journey_class.new if @journey.nil?
     # @journey.complete_journey(station)
     # log_journey
