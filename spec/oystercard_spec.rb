@@ -1,9 +1,11 @@
 require 'oystercard'
 
 describe Oystercard do
-  let(:journey) { double(:journey, complete_journey: nil, fare: 1) }
-  let(:journey_class) { double(:journey_class, new: journey) }
-  subject(:card) {described_class.new(journey_class)}
+  let(:journey_class) { double(:journey_class) }
+  let(:journey_log) { double( :journey_log, entry_station: nil) }
+  let(:journey_log_class) { double(:journey_log_class, new: journey_log) }
+
+  subject(:card) {described_class.new(journey_log_class, journey_class)}
   let(:euston) { double :station }
   let(:lime_house) { double :station }
 
@@ -23,10 +25,10 @@ describe Oystercard do
       end
     end
 
-    describe '#journeys' do
-      it 'keeps track of journeys' do
-        card.touch_in(lime_house)
-        expect{ card.touch_out(euston) }.to change{ card.journeys.size }.by(1)
+    describe '#touch_in' do
+      it 'should pass station to journey log' do
+        card.touch_in(euston)
+        expect(journey_log).to have_received(:entry_station).with(euston)
       end
     end
 
